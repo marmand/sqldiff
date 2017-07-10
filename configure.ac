@@ -3,7 +3,7 @@
 AC_PREREQ([2.69])
 AC_INIT([SQLDiff], [0.0.1], [armand@leclercq.site])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
-AC_CONFIG_SRCDIR([src/main.cc])
+AC_CONFIG_SRCDIR([src/sqldiff.cc])
 AC_CONFIG_HEADERS([config.hh])
 AC_CONFIG_FILES([Makefile])
 
