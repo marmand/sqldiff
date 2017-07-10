@@ -1,1 +1,4 @@
-include src/local.mk
+bin_PROGRAMS =
+lib_LTLIBRARIES =
+
+include %reldir%/local.mk
