@@ -8,6 +8,7 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
+AM_SILENT_RULES([yes])
 
 # Checks for programs.
 AC_PROG_CXX
