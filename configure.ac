@@ -22,6 +22,11 @@ AX_BOOST_BASE([1.55])
 AX_BOOST_PROGRAM_OPTIONS
 
 # Checks for header files.
+AC_LANG_PUSH([C++])
+AC_CHECK_HEADER([gtest/gtest.h],
+                [AC_DEFINE([HAVE_GTEST], [1], [Define to 1 if you have <gtest/gtest.h>.])],
+                [AC_MSG_ERROR([Missing gtest.h, install google test library])])
+AC_LANG_POP([C++])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_11([noext])
