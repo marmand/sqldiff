@@ -6,6 +6,7 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 AC_CONFIG_SRCDIR([src/sqldiff.cc])
 AC_CONFIG_HEADERS([config.hh])
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CXX
