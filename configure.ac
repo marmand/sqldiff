@@ -21,6 +21,26 @@ LT_INIT()
 # Checks for libraries.
 AX_BOOST_BASE([1.55])
 AX_BOOST_PROGRAM_OPTIONS
+AX_PTHREAD()
+AC_LANG_PUSH([C++])
+gtest_save_CXXFLAGS=$CXXFLAGS
+gtest_save_LIBS=$LIBS
+CXXFLAGS="$PTHREAD_CFLAGS $CXXFLAGS"
+LIBS="-lgtest_main -lgtest $LIBS"
+AC_LINK_IFELSE([AC_LANG_SOURCE(
+[[
+#include <gtest/gtest.h>
+
+TEST(Principal, basic)
+{
+  ASSERT_TRUE(true);
+}
+]])]
+, [AC_SUBST([GTEST_LIBS], ["-lgtest_main -lgtest"])]
+, [AC_MSG_FAILURE([Unable to link with gtest libraries])])
+CXXFLAGS=$gtest_save_CXXFLAGS
+LIBS=$gtest_save_LIBS
+AC_LANG_POP([C++])
 
 # Checks for header files.
 AC_LANG_PUSH([C++])
