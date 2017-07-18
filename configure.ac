@@ -2,11 +2,12 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
 AC_INIT([SQLDiff], [0.0.1], [armand@leclercq.site])
-AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 AC_CONFIG_SRCDIR([src/sqldiff.cc])
 AC_CONFIG_HEADERS([config.hh])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
+AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 
 # Checks for programs.
 AC_PROG_CXX
