@@ -11,6 +11,7 @@ AM_INIT_AUTOMAKE([foreign -Wall -Werror subdir-objects])
 AM_SILENT_RULES([yes])
 
 # Checks for programs.
+AC_LANG_PUSH([C++])
 AC_PROG_CXX
 AM_PROG_AR
 
@@ -22,7 +23,6 @@ LT_INIT()
 AX_BOOST_BASE([1.55])
 AX_BOOST_PROGRAM_OPTIONS
 AX_PTHREAD()
-AC_LANG_PUSH([C++])
 gtest_save_CXXFLAGS=$CXXFLAGS
 gtest_save_LIBS=$LIBS
 CXXFLAGS="$PTHREAD_CFLAGS $CXXFLAGS"
@@ -40,14 +40,11 @@ TEST(Principal, basic)
 , [AC_MSG_FAILURE([Unable to link with gtest libraries])])
 CXXFLAGS=$gtest_save_CXXFLAGS
 LIBS=$gtest_save_LIBS
-AC_LANG_POP([C++])
 
 # Checks for header files.
-AC_LANG_PUSH([C++])
 AC_CHECK_HEADER([gtest/gtest.h],
                 [AC_DEFINE([HAVE_GTEST], [1], [Define to 1 if you have <gtest/gtest.h>.])],
                 [AC_MSG_ERROR([Missing gtest.h, install google test library])])
-AC_LANG_POP([C++])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_11([noext])
