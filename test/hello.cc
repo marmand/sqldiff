@@ -11,5 +11,6 @@
 
 TEST(Principal, basic)
 {
+  sqldiff::SQLDiff diff;
   ASSERT_TRUE(true);
 }

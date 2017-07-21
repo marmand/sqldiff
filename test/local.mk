@@ -1,8 +1,10 @@
-check_PROGRAMS = hello
-hello_SOURCES =  \
-%reldir%/hello.cc
+check_PROGRAMS = \
+construct
+construct_SOURCES =  \
+%reldir%/construct.cc
 
-hello_LDFLAGS = libsqldiff.la ${GTEST_LIBS}
-hello_CXXFLAGS = -I${srcdir}/include ${PTHREAD_CFLAGS}
+construct_LDFLAGS = ${GTEST_LIBS}
+construct_CXXFLAGS = -I${top_srcdir}/include ${PTHREAD_CFLAGS}
+construct_LDADD = libsqldiff.la
 
 TESTS = $(check_PROGRAMS)
