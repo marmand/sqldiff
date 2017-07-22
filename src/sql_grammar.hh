@@ -16,26 +16,26 @@
 # include <boost/spirit/include/phoenix_stl.hpp>
 # include <boost/spirit/include/qi.hpp>
 
-BOOST_FUSION_ADAPT_STRUCT(
-  sqldiff::Column,
-  (std::string, name)
-  (std::string, type)
-)
+// BOOST_FUSION_ADAPT_STRUCT(
+//   sqldiff::Column,
+//   (std::string, name)
+//   (std::string, type)
+// )
 
 BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::Table,
   (std::string, name)
-  (std::vector<sqldiff::Column>, columns)
+  // (std::vector<sqldiff::Column>, columns)
 )
 
-BOOST_FUSION_ADAPT_STRUCT(
-  sqldiff::Statement,
-  (std::vector<sqldiff::Table>, tables)
-)
+// BOOST_FUSION_ADAPT_STRUCT(
+//   sqldiff::Statement,
+//   (std::vector<sqldiff::Table>, tables)
+// )
 
 BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::SQL,
-  (std::vector<sqldiff::Statement>, tables)
+  (std::vector<sqldiff::Table>, tables)
 )
 
 namespace sqldiff
@@ -66,7 +66,7 @@ namespace sqldiff
       using boost::phoenix::push_back;
 
       sql =
-        *table
+        *table                  [push_back(at_c<0>(_val), _1)]
       ;
 
       table =
@@ -75,13 +75,13 @@ namespace sqldiff
         >> "();"
       ;
 
-      text = lexeme[+(char_) [_val += _1]];
+      text = lexeme[+(char_)    [_val += _1]];
     }
 
   public:
-    qi::rule<Iterator, SQL(), asc::space_type> sql;
-    qi::rule<Iterator, Table(), asc::space_type> table;
-    qi::rule<Iterator, std::string(), asc::space_type> text;
+    qi::rule<Iterator, SQL(), asc::space_type>          sql;
+    qi::rule<Iterator, Table(), asc::space_type>        table;
+    qi::rule<Iterator, std::string(), asc::space_type>  text;
   }; // struct sql_grammar
 } /* namespace sqldiff */
 

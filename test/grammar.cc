@@ -10,4 +10,19 @@
 TEST(Grammar, empty_script)
 {
   std::string script = "";
+  sqldiff::sql_grammar<std::string::const_iterator> sql;
+  sqldiff::SQL ast;
+
+  std::string::const_iterator first = std::begin(script);
+  std::string::const_iterator last = std::end(script);
+
+  ASSERT_TRUE(
+    phrase_parse(
+      first
+      , last
+      , sql
+      , boost::spirit::ascii::space
+      , ast
+    )
+  );
 }

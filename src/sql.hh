@@ -6,7 +6,8 @@
 #ifndef SQL_HH
 # define SQL_HH
 
-# include "statement.hh"
+// # include "statement.hh"
+# include "table.hh"
 
 # include <vector>
 
@@ -14,7 +15,7 @@ namespace sqldiff
 {
   struct SQL
   {
-    std::vector<Statement> statements;
+    std::vector<Table> tables;
   }; // struct SQL
 } /* namespace sqldiff */
 
