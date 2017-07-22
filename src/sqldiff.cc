@@ -5,9 +5,25 @@
  */
 #include <sqldiff.hh>
 
+#include <fstream>
+
 namespace sqldiff
 {
   SQLDiff::SQLDiff()
   {
+  }
+
+  bool
+  SQLDiff::operator()(const std::istream& /* lhs */
+                      , const std::istream& /* rhs */ )
+  {
+    return false;
+  }
+
+  bool
+  SQLDiff::operator()(const std::string&/* lhs */
+                      , const std::string& /* rhs/ */ )
+  {
+    return false;
   }
 } /* namespace sqldiff */
