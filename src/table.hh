@@ -16,7 +16,7 @@ namespace sqldiff
   struct Table
   {
     std::string name;
-    std::vector<Column> columns;
+    // std::vector<Column> columns;
   }; // struct Table
 } /* namespace sqldiff */
 

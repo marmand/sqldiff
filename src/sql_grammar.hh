@@ -12,6 +12,7 @@
 # include <boost/fusion/include/adapt_struct.hpp>
 # include <boost/spirit/include/phoenix_core.hpp>
 # include <boost/spirit/include/phoenix_fusion.hpp>
+# include <boost/spirit/include/phoenix_object.hpp>
 # include <boost/spirit/include/phoenix_operator.hpp>
 # include <boost/spirit/include/phoenix_stl.hpp>
 # include <boost/spirit/include/qi.hpp>
@@ -58,30 +59,46 @@ namespace sqldiff
     {
       using qi::lit;
       using qi::lexeme;
+      using qi::on_error;
+      using qi::fail;
       using asc::char_;
       using asc::string;
       using namespace qi::labels;
 
+      using boost::phoenix::construct;
+      using boost::phoenix::val;
       using boost::phoenix::at_c;
       using boost::phoenix::push_back;
 
+      // /////// //
+      // Grammar //
+      // /////// //
+
       sql =
-        *table                  [push_back(at_c<0>(_val), _1)]
+        *table                                  [push_back(at_c<0>(_val), _1)]
       ;
 
       table =
         "CREATE TABLE"
-        >> text                 [at_c<0>(_val) = _1]
+        >> identifier                           [at_c<0>(_val) = _1]
         >> "();"
       ;
 
-      text = lexeme[+(char_)    [_val += _1]];
+      identifier = lexeme[+(char_("a-zA-Z"))    [_val += _1]];
+
+# if 0
+      sql.name("sql");
+      debug(sql);
+
+      table.name("table");
+      debug(table);
+# endif
     }
 
   public:
     qi::rule<Iterator, SQL(), asc::space_type>          sql;
     qi::rule<Iterator, Table(), asc::space_type>        table;
-    qi::rule<Iterator, std::string(), asc::space_type>  text;
+    qi::rule<Iterator, std::string(), asc::space_type>  identifier;
   }; // struct sql_grammar
 } /* namespace sqldiff */
 

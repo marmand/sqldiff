@@ -45,6 +45,7 @@ TEST(Grammar, Create_Table)
       , ast
     )
   );
+  ASSERT_STREQ("toto", ast.tables[0].name.c_str());
 
   std::string scriptCamel = "Create Table toto ();";
   sqldiff::sql_grammar<std::string::const_iterator> sqlCamel;
