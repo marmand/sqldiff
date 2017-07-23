@@ -3,6 +3,8 @@ sqldiffdir = ${includedir}/sqldiff
 sqldiff_HEADERS = %reldir%/include/sqldiff.hh
 libsqldiff_la_SOURCES =         \
 %reldir%/src/column.hh          \
+%reldir%/src/diff.cc            \
+%reldir%/src/diff.hh            \
 %reldir%/src/sql.hh             \
 %reldir%/src/sql_grammar.hh     \
 %reldir%/src/sqldiff.cc         \
