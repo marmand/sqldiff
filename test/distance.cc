@@ -69,3 +69,17 @@ TEST(Distance, gifts_profit)
   std::string rhs = "profit";
   ASSERT_EQ(5, sqldiff::distance(lhs, rhs));
 }
+
+TEST(Distance, saturday_sunday)
+{
+  std::string lhs = "saturday";
+  std::string rhs = "sunday";
+  ASSERT_EQ(3, sqldiff::distance(lhs, rhs));
+}
+
+TEST(Distance, orange_pumpkin)
+{
+  std::string lhs = "orange";
+  std::string rhs = "pumpkin";
+  ASSERT_EQ(7, sqldiff::distance(lhs, rhs));
+}
