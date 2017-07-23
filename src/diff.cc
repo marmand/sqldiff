@@ -31,9 +31,9 @@ namespace sqldiff
     // j goes through rhs
 
     for (size_t i = 0; i < lhs.size(); ++i)
-      distances[0 + i] = i;
+      distances[i + 0] = i;
     for (size_t j = 0; j < rhs.size(); ++j)
-      distances[j * lhs.size() + 0] = j;
+      distances[0 + j * lhs.size()] = j;
 
     for (size_t i = 1; i < lhs.size(); ++i)
       for (size_t j = 1; j < rhs.size(); ++j)
@@ -42,16 +42,16 @@ namespace sqldiff
         if (lhs[i] != rhs[j])
           cost = 1;
 
-        distances[j * lhs.size() + i]
+        distances[i + j * lhs.size()]
           = std::min(
               std::min(
                 // deletion
-                distances[j * lhs.size() + (i - 1)] + 1
+                distances[(i - 1) + j * lhs.size()] + 1
                 // insertion
-                , distances[(j - 1) * lhs.size() + i] + 1
+                , distances[i + (j - 1) * lhs.size()] + 1
               )
               // substitution
-              , distances[(j - 1) * lhs.size() + (i - 1)] + cost
+              , distances[(i - 1) + (j - 1) * lhs.size()] + cost
             );
 
         // transposition
@@ -60,10 +60,10 @@ namespace sqldiff
             && lhs[i] == rhs[j - 1]
             && lhs[i - 1] == rhs[j])
         {
-          distances[j * lhs.size() + i]
+          distances[i + j * lhs.size()]
             = std::min(
-                distances[j * lhs.size() + i]
-                , distances[(j - 2) * lhs.size() + (i - 2)] + cost
+                distances[i + j * lhs.size()]
+                , distances[(i - 2) + (j - 2) * lhs.size()] + cost
               );
         }
       }
