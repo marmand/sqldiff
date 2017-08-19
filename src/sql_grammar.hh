@@ -57,8 +57,9 @@ namespace sqldiff
     sql_grammar()
       : sql_grammar::base_type(sql)
     {
-      using qi::lit;
+      using qi::fail;
       using qi::lexeme;
+      using qi::lit;
       using qi::on_error;
 
       using asc::alpha;
