@@ -29,7 +29,7 @@ TEST(Grammar, empty_script)
 
 TEST(Grammar, Create_Table)
 {
-  std::string script = "CREATE TABLE toto ();";
+  std::string script = "CREATE TABLE toto (id INT);";
   sqldiff::sql_grammar<std::string::const_iterator> sql;
   sqldiff::SQL ast;
 
@@ -47,7 +47,7 @@ TEST(Grammar, Create_Table)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
 
-  std::string scriptCamel = "Create Table toto ();";
+  std::string scriptCamel = "CREATE TABLE Tata (ID INT);";
   sqldiff::sql_grammar<std::string::const_iterator> sqlCamel;
   sqldiff::SQL astCamel;
 
@@ -63,4 +63,5 @@ TEST(Grammar, Create_Table)
       , astCamel
     )
   );
+  ASSERT_STREQ("Tata", astCamel.tables[0].name.c_str());
 }

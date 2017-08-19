@@ -17,16 +17,16 @@
 # include <boost/spirit/include/phoenix_stl.hpp>
 # include <boost/spirit/include/qi.hpp>
 
-// BOOST_FUSION_ADAPT_STRUCT(
-//   sqldiff::Column,
-//   (std::string, name)
-//   (std::string, type)
-// )
+BOOST_FUSION_ADAPT_STRUCT(
+  sqldiff::Column,
+  (std::string, name)
+  (std::string, type)
+)
 
 BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::Table,
   (std::string, name)
-  // (std::vector<sqldiff::Column>, columns)
+  (std::vector<sqldiff::Column>, columns)
 )
 
 // BOOST_FUSION_ADAPT_STRUCT(
@@ -60,19 +60,21 @@ namespace sqldiff
       using qi::lit;
       using qi::lexeme;
       using qi::on_error;
-      using qi::fail;
-      using asc::char_;
-      using asc::string;
+
+      using asc::alpha;
+
       using namespace qi::labels;
 
-      using boost::phoenix::construct;
-      using boost::phoenix::val;
       using boost::phoenix::at_c;
+      using boost::phoenix::construct;
       using boost::phoenix::push_back;
+      using boost::phoenix::val;
 
       // /////// //
       // Grammar //
       // /////// //
+
+      identifier = lexeme[+alpha                [_val += _1]];
 
       sql =
         *table                                  [push_back(at_c<0>(_val), _1)]
@@ -80,11 +82,17 @@ namespace sqldiff
 
       table =
         "CREATE TABLE"
-        >> identifier                           [at_c<0>(_val) = _1]
-        >> "();"
+        > identifier                           [at_c<0>(_val) = _1]
+        > "("
+        > column                               [push_back(at_c<1>(_val), _1)]
+        // >> *("," >> column)                     [push_back(at_c<1>(_val), _1)]
+        > ");"
       ;
 
-      identifier = lexeme[+(char_("a-zA-Z"))    [_val += _1]];
+      column =
+        identifier                              [at_c<0>(_val) = _1]
+        >> identifier                           [at_c<1>(_val) = _1]
+      ;
 
 # if 0
       sql.name("sql");
@@ -92,13 +100,27 @@ namespace sqldiff
 
       table.name("table");
       debug(table);
+
+      column.name("column");
+      debug(column);
 # endif
+
+      on_error<fail>(
+        table
+        , std::cout << val("Error ! Expecting ")
+                    << _4
+                    << val(" here: \"")
+                    << construct<std::string>(_3, _2)
+                    << val("\"")
+                    << std::endl
+      );
     }
 
   public:
     qi::rule<Iterator, SQL(), asc::space_type>          sql;
     qi::rule<Iterator, Table(), asc::space_type>        table;
     qi::rule<Iterator, std::string(), asc::space_type>  identifier;
+    qi::rule<Iterator, Column(), asc::space_type>       column;
   }; // struct sql_grammar
 } /* namespace sqldiff */
 
