@@ -16,6 +16,7 @@
 # include <boost/spirit/include/phoenix_operator.hpp>
 # include <boost/spirit/include/phoenix_stl.hpp>
 # include <boost/spirit/include/qi.hpp>
+# include <boost/spirit/include/qi_no_case.hpp>
 
 BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::Column,
@@ -63,6 +64,7 @@ namespace sqldiff
       using qi::on_error;
 
       using asc::alpha;
+      using asc::no_case;
 
       using namespace qi::labels;
 
@@ -82,11 +84,11 @@ namespace sqldiff
       ;
 
       table =
-        "CREATE TABLE"
-        > identifier                           [at_c<0>(_val) = _1]
+        no_case["CREATE TABLE"]
+        > identifier                            [at_c<0>(_val) = _1]
         > "("
-        > column                               [push_back(at_c<1>(_val), _1)]
-        // >> *("," >> column)                     [push_back(at_c<1>(_val), _1)]
+        > column                                [push_back(at_c<1>(_val), _1)]
+        // > *("," >> column)                      [push_back(at_c<1>(_val), _1)]
         > ");"
       ;
 
