@@ -160,3 +160,29 @@ TEST(Grammar, Create_Table_Two_Columns)
   ASSERT_STREQ("name", ast.tables[0].columns[1].name.c_str());
   ASSERT_STREQ("TEXT", ast.tables[0].columns[1].type.c_str());
 }
+
+TEST(Grammar, Create_Table_Two_Columns_Camel)
+{
+  sqldiff::sql_grammar<std::string::const_iterator> sql;
+  sqldiff::SQL ast;
+  std::string script = "CREATE Table toto(ID INT, Name TEXT);";
+
+  std::string::const_iterator first = std::begin(script);
+  std::string::const_iterator last = std::end(script);
+
+  ASSERT_TRUE(
+    phrase_parse(
+      first
+      , last
+      , sql
+      , boost::spirit::ascii::space
+      , ast
+    )
+  );
+  ASSERT_STREQ("toto", ast.tables[0].name.c_str());
+  ASSERT_STREQ("ID", ast.tables[0].columns[0].name.c_str());
+  ASSERT_STREQ("INT", ast.tables[0].columns[0].type.c_str());
+
+  ASSERT_STREQ("Name", ast.tables[0].columns[1].name.c_str());
+  ASSERT_STREQ("TEXT", ast.tables[0].columns[1].type.c_str());
+}
