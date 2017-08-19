@@ -46,7 +46,10 @@ TEST(Grammar, Create_Table)
     )
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
+}
 
+TEST(Grammar, Create_Table_Camel_Identifier)
+{
   std::string scriptCamel = "CREATE TABLE Tata (ID INT);";
   sqldiff::sql_grammar<std::string::const_iterator> sqlCamel;
   sqldiff::SQL astCamel;
@@ -64,7 +67,10 @@ TEST(Grammar, Create_Table)
     )
   );
   ASSERT_STREQ("Tata", astCamel.tables[0].name.c_str());
+}
 
+TEST(Grammar, Create_Table_Camel_SQL_and_Identifier)
+{
   std::string scriptSQLCamel = "Create Table TuTu (ID INT);";
   sqldiff::sql_grammar<std::string::const_iterator> sqlSQLCamel;
   sqldiff::SQL astSQLCamel;
@@ -84,7 +90,7 @@ TEST(Grammar, Create_Table)
   ASSERT_STREQ("TuTu", astSQLCamel.tables[0].name.c_str());
 }
 
-TEST(Grammar, Create_Tables)
+TEST(Grammar, Create_Two_Tables)
 {
   std::string script = "CREATE TABLE toto (id int); CREATE TABLE Tata (id INT);";
   sqldiff::sql_grammar<std::string::const_iterator> sql;
@@ -104,4 +110,53 @@ TEST(Grammar, Create_Tables)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("Tata", ast.tables[1].name.c_str());
+}
+
+TEST(Grammar, Create_Table_One_Column)
+{
+  sqldiff::sql_grammar<std::string::const_iterator> sql;
+  sqldiff::SQL ast;
+  std::string script = "CREATE Table toto(id INT);";
+
+  std::string::const_iterator first = std::begin(script);
+  std::string::const_iterator last = std::end(script);
+
+  ASSERT_TRUE(
+    phrase_parse(
+      first
+      , last
+      , sql
+      , boost::spirit::ascii::space
+      , ast
+    )
+  );
+  ASSERT_STREQ("toto", ast.tables[0].name.c_str());
+  ASSERT_STREQ("id", ast.tables[0].columns[0].name.c_str());
+  ASSERT_STREQ("INT", ast.tables[0].columns[0].type.c_str());
+}
+
+TEST(Grammar, Create_Table_Two_Columns)
+{
+  sqldiff::sql_grammar<std::string::const_iterator> sql;
+  sqldiff::SQL ast;
+  std::string script = "CREATE Table toto(id INT, name TEXT);";
+
+  std::string::const_iterator first = std::begin(script);
+  std::string::const_iterator last = std::end(script);
+
+  ASSERT_TRUE(
+    phrase_parse(
+      first
+      , last
+      , sql
+      , boost::spirit::ascii::space
+      , ast
+    )
+  );
+  ASSERT_STREQ("toto", ast.tables[0].name.c_str());
+  ASSERT_STREQ("id", ast.tables[0].columns[0].name.c_str());
+  ASSERT_STREQ("INT", ast.tables[0].columns[0].type.c_str());
+
+  ASSERT_STREQ("name", ast.tables[0].columns[1].name.c_str());
+  ASSERT_STREQ("TEXT", ast.tables[0].columns[1].type.c_str());
 }
