@@ -64,6 +64,24 @@ TEST(Grammar, Create_Table)
     )
   );
   ASSERT_STREQ("Tata", astCamel.tables[0].name.c_str());
+
+  std::string scriptSQLCamel = "Create Table TuTu (ID INT);";
+  sqldiff::sql_grammar<std::string::const_iterator> sqlSQLCamel;
+  sqldiff::SQL astSQLCamel;
+
+  std::string::const_iterator firstSQLCamel = std::begin(scriptSQLCamel);
+  std::string::const_iterator lastSQLCamel = std::end(scriptSQLCamel);
+
+  ASSERT_TRUE(
+    phrase_parse(
+      firstSQLCamel
+      , lastSQLCamel
+      , sqlSQLCamel
+      , boost::spirit::ascii::space
+      , astSQLCamel
+    )
+  );
+  ASSERT_STREQ("TuTu", astSQLCamel.tables[0].name.c_str());
 }
 
 TEST(Grammar, Create_Tables)
