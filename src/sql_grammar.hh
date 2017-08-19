@@ -88,7 +88,7 @@ namespace sqldiff
         > identifier                            [at_c<0>(_val) = _1]
         > "("
         > column                                [push_back(at_c<1>(_val), _1)]
-        % lit(",")
+          % lit(",")
         > ");"
       ;
 
