@@ -19,9 +19,14 @@
 # include <boost/spirit/include/qi_no_case.hpp>
 
 BOOST_FUSION_ADAPT_STRUCT(
+  sqldiff::Integer,
+  (size_t, size)
+)
+
+BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::Column,
   (std::string, name)
-  (std::string, type)
+  (sqldiff::Integer, type)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
@@ -59,6 +64,7 @@ namespace sqldiff
       : sql_grammar::base_type(sql)
     {
       using qi::fail;
+      using qi::int_;
       using qi::lexeme;
       using qi::lit;
       using qi::on_error;
@@ -94,7 +100,14 @@ namespace sqldiff
 
       column =
         identifier                              [at_c<0>(_val) = _1]
-        >> identifier                           [at_c<1>(_val) = _1]
+        >> integer                              [at_c<1>(_val) = _1]
+      ;
+
+      integer =
+        no_case["INTEGER"]
+        > "("
+        > int_                                  [at_c<0>(_val) = _1]
+        > ")"
       ;
 
 # if 0
@@ -124,6 +137,8 @@ namespace sqldiff
     qi::rule<Iterator, Table(), asc::space_type>        table;
     qi::rule<Iterator, std::string(), asc::space_type>  identifier;
     qi::rule<Iterator, Column(), asc::space_type>       column;
+    qi::rule<Iterator, Type(), asc::space_type>         type;
+    qi::rule<Iterator, Integer(), asc::space_type>      integer;
   }; // struct sql_grammar
 } /* namespace sqldiff */
 

@@ -6,6 +6,8 @@
 #ifndef COLUMN_HH
 # define COLUMN_HH
 
+# include "integer.hh"
+
 # include <string>
 
 namespace sqldiff
@@ -13,7 +15,7 @@ namespace sqldiff
   struct Column
   {
     std::string name;
-    std::string type;
+    Integer type;
   }; // struct Column
 } /* namespace sqldiff */
 

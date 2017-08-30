@@ -29,7 +29,7 @@ TEST(Grammar, empty_script)
 
 TEST(Grammar, Create_Table)
 {
-  std::string script = "CREATE TABLE toto (id INT);";
+  std::string script = "CREATE TABLE toto (id INTEGER(5));";
   sqldiff::sql_grammar<std::string::const_iterator> sql;
   sqldiff::SQL ast;
 
@@ -50,7 +50,7 @@ TEST(Grammar, Create_Table)
 
 TEST(Grammar, Create_Table_Camel_Identifier)
 {
-  std::string scriptCamel = "CREATE TABLE Tata (ID INT);";
+  std::string scriptCamel = "CREATE TABLE Tata (ID INTEGER(5));";
   sqldiff::sql_grammar<std::string::const_iterator> sqlCamel;
   sqldiff::SQL astCamel;
 
@@ -71,7 +71,7 @@ TEST(Grammar, Create_Table_Camel_Identifier)
 
 TEST(Grammar, Create_Table_Camel_SQL_and_Identifier)
 {
-  std::string scriptSQLCamel = "Create Table TuTu (ID INT);";
+  std::string scriptSQLCamel = "Create Table TuTu (ID INTEGER(5));";
   sqldiff::sql_grammar<std::string::const_iterator> sqlSQLCamel;
   sqldiff::SQL astSQLCamel;
 
@@ -92,7 +92,7 @@ TEST(Grammar, Create_Table_Camel_SQL_and_Identifier)
 
 TEST(Grammar, Create_Two_Tables)
 {
-  std::string script = "CREATE TABLE toto (id int); CREATE TABLE Tata (id INT);";
+  std::string script = "CREATE TABLE toto (id integer(10)); CREATE TABLE Tata (id INTEGER(8));";
   sqldiff::sql_grammar<std::string::const_iterator> sql;
   sqldiff::SQL ast;
 
@@ -116,7 +116,7 @@ TEST(Grammar, Create_Table_One_Column)
 {
   sqldiff::sql_grammar<std::string::const_iterator> sql;
   sqldiff::SQL ast;
-  std::string script = "CREATE Table toto(id INT);";
+  std::string script = "CREATE Table toto(id INTEGER(5));";
 
   std::string::const_iterator first = std::begin(script);
   std::string::const_iterator last = std::end(script);
@@ -132,14 +132,14 @@ TEST(Grammar, Create_Table_One_Column)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("id", ast.tables[0].columns[0].name.c_str());
-  ASSERT_STREQ("INT", ast.tables[0].columns[0].type.c_str());
+  ASSERT_EQ(5, ast.tables[0].columns[0].type.size);
 }
 
 TEST(Grammar, Create_Table_Two_Columns)
 {
   sqldiff::sql_grammar<std::string::const_iterator> sql;
   sqldiff::SQL ast;
-  std::string script = "CREATE Table toto(id INT, name TEXT);";
+  std::string script = "CREATE Table toto(id INTEGER(2), name INTEGER(4));";
 
   std::string::const_iterator first = std::begin(script);
   std::string::const_iterator last = std::end(script);
@@ -155,17 +155,17 @@ TEST(Grammar, Create_Table_Two_Columns)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("id", ast.tables[0].columns[0].name.c_str());
-  ASSERT_STREQ("INT", ast.tables[0].columns[0].type.c_str());
+  ASSERT_EQ(2, ast.tables[0].columns[0].type.size);
 
   ASSERT_STREQ("name", ast.tables[0].columns[1].name.c_str());
-  ASSERT_STREQ("TEXT", ast.tables[0].columns[1].type.c_str());
+  ASSERT_EQ(4, ast.tables[0].columns[1].type.size);
 }
 
 TEST(Grammar, Create_Table_Two_Columns_Camel)
 {
   sqldiff::sql_grammar<std::string::const_iterator> sql;
   sqldiff::SQL ast;
-  std::string script = "CREATE Table toto(ID INT, Name TEXT);";
+  std::string script = "CREATE Table toto(ID INTEGER(10), Name INTEGER(12));";
 
   std::string::const_iterator first = std::begin(script);
   std::string::const_iterator last = std::end(script);
@@ -181,8 +181,8 @@ TEST(Grammar, Create_Table_Two_Columns_Camel)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("ID", ast.tables[0].columns[0].name.c_str());
-  ASSERT_STREQ("INT", ast.tables[0].columns[0].type.c_str());
+  ASSERT_EQ(10, ast.tables[0].columns[0].type.size);
 
   ASSERT_STREQ("Name", ast.tables[0].columns[1].name.c_str());
-  ASSERT_STREQ("TEXT", ast.tables[0].columns[1].type.c_str());
+  ASSERT_EQ(12, ast.tables[0].columns[1].type.size);
 }

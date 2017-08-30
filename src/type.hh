@@ -18,7 +18,6 @@ namespace sqldiff
 
   public:
     virtual bool has_size() const;
-    virtual size_t size() const = 0;
   }; // class Type
 } /* namespace sqldiff */
 

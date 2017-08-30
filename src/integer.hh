@@ -13,15 +13,14 @@ namespace sqldiff
 class Integer : public Type
 {
   public:
-    Integer(const size_t size);
+    Integer() = default;
     ~Integer() = default;
 
   public:
     virtual bool has_size() const;
-    virtual size_t size() const;
 
-  private:
-    size_t size_;
+  public:
+    size_t size;
 }; // class Integer
 } /* namespace sqldiff */
 
