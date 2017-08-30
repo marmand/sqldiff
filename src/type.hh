@@ -6,6 +6,8 @@
 #ifndef TYPE_HH
 # define TYPE_HH
 
+# include <cstddef>
+
 namespace sqldiff
 {
   class Type
@@ -15,10 +17,8 @@ namespace sqldiff
     ~Type() = default;
 
   public:
-    size_t size() const;
-
-  private:
-    size_t size_;
+    virtual bool has_size() const;
+    virtual size_t size() const = 0;
   }; // class Type
 } /* namespace sqldiff */
 

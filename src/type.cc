@@ -6,9 +6,9 @@
 #include "type.hh"
 namespace sqldiff
 {
-  size_t
-  Type::size() const
+  bool
+  Type::has_size() const
   {
-    return size_;
+    return false;
   }
 } /* namespace sqldiff */
