@@ -104,10 +104,17 @@ namespace sqldiff
       ;
 
       integer =
-        no_case["INTEGER"]
-        > "("
-        > int_                                  [at_c<0>(_val) = _1]
-        > ")"
+        (
+          no_case["INTEGER"]
+          > "("
+          > int_                                  [at_c<0>(_val) = _1]
+          > ")"
+        )
+        | no_case["TINYINT"]                    [at_c<0>(_val) = 1]
+        | no_case["SMALLINT"]                   [at_c<0>(_val) = 2]
+        | no_case["MEDIUMINT"]                  [at_c<0>(_val) = 3]
+        | no_case["INT"]                        [at_c<0>(_val) = 4]
+        | no_case["BIGINT"]                     [at_c<0>(_val) = 8]
       ;
 
 # if 0
