@@ -7,6 +7,7 @@
 #ifndef DIFF_HH
 # define DIFF_HH
 
+# include "column.hh"
 # include "integer.hh"
 
 # include <string>
@@ -27,6 +28,10 @@ namespace sqldiff
   size_t
   distance(const Integer& lhs
            , const Integer& rhs);
+
+  size_t
+  distance(const Column& lhs
+           , const Column& rhs);
 } /* namespace sqldiff */
 
 #endif /* !DIFF_HH */

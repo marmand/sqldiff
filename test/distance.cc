@@ -110,3 +110,25 @@ TEST(Distance, int_0_0)
   zorro.size = 0;
   ASSERT_EQ(0, sqldiff::distance(zerro, zorro));
 }
+
+TEST(Distance, column_orange_4_pumpkin_4)
+{
+  sqldiff::Column lhs;
+  lhs.name = "orange";
+  lhs.type.size = 4;
+  sqldiff::Column rhs;
+  rhs.name = "pumpkin";
+  rhs.type.size = 4;
+  ASSERT_EQ(7, sqldiff::distance(lhs, rhs));
+}
+
+TEST(Distance, column_orange_4_pumpkin_8)
+{
+  sqldiff::Column lhs;
+  lhs.name = "orange";
+  lhs.type.size = 4;
+  sqldiff::Column rhs;
+  rhs.name = "pumpkin";
+  rhs.type.size = 8;
+  ASSERT_EQ(7 + 4, sqldiff::distance(lhs, rhs));
+}
