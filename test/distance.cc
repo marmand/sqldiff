@@ -92,3 +92,21 @@ TEST(Distance, int_4_8)
   eight.size = 8;
   ASSERT_EQ(4, sqldiff::distance(four, eight));
 }
+
+TEST(Distance, int_8_4)
+{
+  sqldiff::Integer eight;
+  eight.size = 8;
+  sqldiff::Integer four;
+  four.size = 4;
+  ASSERT_EQ(4, sqldiff::distance(eight, four));
+}
+
+TEST(Distance, int_0_0)
+{
+  sqldiff::Integer zerro;
+  zerro.size = 0;
+  sqldiff::Integer zorro;
+  zorro.size = 0;
+  ASSERT_EQ(0, sqldiff::distance(zerro, zorro));
+}
