@@ -154,3 +154,38 @@ TEST(Distance, column_pumpkin_4_pumpkin_8)
   rhs.type.size = 8;
   ASSERT_EQ(4, sqldiff::distance(lhs, rhs));
 }
+
+TEST(Distance, table_1_pumpkin_4_vs_1_pumpkin_8)
+{
+  sqldiff::Table lhs;
+  lhs.name = "table";
+  lhs.columns.push_back({});
+  lhs.columns.back().name = "pumpkin";
+  lhs.columns.back().type.size = 4;
+
+  sqldiff::Table rhs;
+  rhs.name = "table";
+  rhs.columns.push_back({});
+  rhs.columns.back().name = "pumpkin";
+  rhs.columns.back().type.size = 8;
+  ASSERT_EQ(4, sqldiff::distance(lhs, rhs));
+}
+
+TEST(Distance, table_2_pumpkin_4_orange_4_vs_1_pumpkin_8)
+{
+  sqldiff::Table lhs;
+  lhs.name = "table";
+  lhs.columns.push_back({});
+  lhs.columns.back().name = "pumpkin";
+  lhs.columns.back().type.size = 4;
+  lhs.columns.push_back({});
+  lhs.columns.back().name = "orange";
+  lhs.columns.back().type.size = 4;
+
+  sqldiff::Table rhs;
+  rhs.name = "table";
+  rhs.columns.push_back({});
+  rhs.columns.back().name = "pumpkin";
+  rhs.columns.back().type.size = 8;
+  ASSERT_EQ(4 + 1, sqldiff::distance(lhs, rhs));
+}

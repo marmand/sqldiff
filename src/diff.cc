@@ -75,4 +75,31 @@ namespace sqldiff
   {
     return distance(lhs.name, rhs.name) + distance(lhs.type, rhs.type);
   }
+
+  size_t
+  distance(const Table& lhs
+           , const Table& rhs)
+  {
+    auto result = distance(lhs.name, rhs.name);
+    auto min_size = std::min(lhs.columns.size()
+                             , rhs.columns.size());
+    result += std::max(lhs.columns.size()
+                       , rhs.columns.size())
+            - min_size;
+    std::vector<size_t> column_distances;
+    std::transform(std::begin(lhs.columns)
+                   , std::begin(lhs.columns) + min_size
+                   , std::begin(rhs.columns)
+                   , std::back_inserter(column_distances)
+                   , [](const Column& c_lhs
+                        , const Column& c_rhs)
+                     -> size_t
+                    {
+                      return distance(c_lhs, c_rhs);
+                    }
+                  );
+    for (const auto& distance: column_distances)
+      result += distance;
+    return result;
+  }
 } /* sqldiff */

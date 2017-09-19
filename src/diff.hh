@@ -9,6 +9,7 @@
 
 # include "column.hh"
 # include "integer.hh"
+# include "table.hh"
 
 # include <string>
 
@@ -32,6 +33,10 @@ namespace sqldiff
   size_t
   distance(const Column& lhs
            , const Column& rhs);
+
+  size_t
+  distance(const Table& lhs
+           , const Table& rhs);
 } /* namespace sqldiff */
 
 #endif /* !DIFF_HH */
