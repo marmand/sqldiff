@@ -14,7 +14,7 @@ class Integer : public Type
 {
   public:
     Integer() = default;
-    ~Integer() = default;
+    virtual ~Integer() = default;
 
   public:
     virtual bool has_size() const;
