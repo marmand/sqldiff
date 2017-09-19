@@ -7,6 +7,8 @@
 #ifndef DIFF_HH
 # define DIFF_HH
 
+# include "integer.hh"
+
 # include <string>
 
 namespace sqldiff
@@ -21,6 +23,10 @@ namespace sqldiff
   size_t
   distance(const std::string& lhs
            , const std::string& rhs);
+
+  size_t
+  distance(const Integer& lhs
+           , const Integer& rhs);
 } /* namespace sqldiff */
 
 #endif /* !DIFF_HH */

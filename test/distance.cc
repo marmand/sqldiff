@@ -83,3 +83,12 @@ TEST(Distance, orange_pumpkin)
   std::string rhs = "pumpkin";
   ASSERT_EQ(7, sqldiff::distance(lhs, rhs));
 }
+
+TEST(Distance, int_4_8)
+{
+  sqldiff::Integer four;
+  four.size = 4;
+  sqldiff::Integer eight;
+  eight.size = 8;
+  ASSERT_EQ(4, sqldiff::distance(four, eight));
+}

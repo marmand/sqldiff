@@ -61,4 +61,11 @@ namespace sqldiff
 
     return distances.back();
   }
+
+  size_t
+  distance(const Integer& lhs
+           , const Integer& rhs)
+  {
+    return std::max(lhs.size, rhs.size) - std::min(lhs.size, rhs.size);
+  }
 } /* sqldiff */
