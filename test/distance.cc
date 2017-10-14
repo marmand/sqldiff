@@ -217,11 +217,15 @@ TEST(Diff, table_1_id_vs_2_id_hash)
   }
   ASSERT_EQ(1, count);
 
-#if 0
+  count = 0;
   for (const auto& drop: std::get<1>(result))
   {
+    ++count;
+    (void) drop;
   }
+  ASSERT_EQ(0, count);
 
+#if 0
   for (const auto& modifiy: std::get<2>(result))
   {
   }
