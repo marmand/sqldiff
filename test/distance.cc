@@ -231,3 +231,45 @@ TEST(Diff, table_1_id_vs_2_id_hash)
   }
 #endif
 }
+
+TEST(Diff, table_2_id_hash_vs_1_id)
+{
+  sqldiff::Table lhs;
+  lhs.name = "Toto";
+  lhs.columns.push_back({});
+  lhs.columns.back().name = "ID";
+  lhs.columns.back().type.size = 4;
+  lhs.columns.push_back({});
+  lhs.columns.back().name = "hash";
+  lhs.columns.back().type.size = 4;
+
+  sqldiff::Table rhs;
+  rhs.name = "Toto";
+  rhs.columns.push_back({});
+  rhs.columns.back().name = "ID";
+  rhs.columns.back().type.size = 4;
+
+  auto result = sqldiff::diff(lhs, rhs);
+  size_t count{0};
+  for (const auto& add: std::get<0>(result))
+  {
+    ++count;
+    (void) add;
+  }
+  ASSERT_EQ(0, count);
+
+  count = 0;
+  for (const auto& drop: std::get<1>(result))
+  {
+    ++count;
+    ASSERT_STREQ("hash", drop.name.c_str());
+    ASSERT_EQ(4, drop.type.size);
+  }
+  ASSERT_EQ(1, count);
+
+#if 0
+  for (const auto& modifiy: std::get<2>(result))
+  {
+  }
+#endif
+}
