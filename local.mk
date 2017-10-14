@@ -19,7 +19,7 @@ libsqldiff_la_LDFLAGS = -version-info 0:0:0
 libsqldiff_la_CXXFLAGS = -I${top_srcdir}/include/
 
 bin_PROGRAMS += sqldiff
-sqldiff_LDADD = libsqldiff.la
+sqldiff_LDADD = libsqldiff.la $(BOOST_PROGRAM_OPTIONS_LIB)
 sqldiff_SOURCES =               \
 %reldir%/src/sqldiff_main.cc
 
