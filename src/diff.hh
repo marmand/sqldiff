@@ -12,6 +12,7 @@
 # include "table.hh"
 
 # include <string>
+# include <tuple>
 
 namespace sqldiff
 {
@@ -37,6 +38,15 @@ namespace sqldiff
   size_t
   distance(const Table& lhs
            , const Table& rhs);
+
+  std::tuple
+  <
+    std::vector<Column>
+    , std::vector<Column>
+    , std::vector<Column>
+  >
+  diff(const Table& lhs
+       , const Table& rhs);
 } /* namespace sqldiff */
 
 #endif /* !DIFF_HH */

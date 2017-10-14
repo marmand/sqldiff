@@ -6,6 +6,7 @@
 #include "diff.hh"
 
 #include <algorithm>
+#include <set>
 #include <vector>
 
 namespace sqldiff
@@ -100,6 +101,54 @@ namespace sqldiff
                   );
     for (const auto& distance: column_distances)
       result += distance;
+    return result;
+  }
+
+  std::tuple
+  <
+    std::vector<Column>
+    , std::vector<Column>
+    , std::vector<Column>
+  >
+  diff(const Table& lhs
+       , const Table& rhs)
+  {
+    using columns = std::vector<Column>;
+    std::tuple<columns, columns, columns> result;
+    std::set<std::string> lhs_column_names;
+    std::set<std::string> rhs_column_names;
+    std::set<std::string> column_names;
+    for (const auto& column: lhs.columns)
+    {
+      column_names.insert(column.name);
+      lhs_column_names.insert(column.name);
+    }
+    for (const auto& column: rhs.columns)
+    {
+      column_names.insert(column.name);
+      rhs_column_names.insert(column.name);
+    }
+    for (const auto& column: column_names)
+    {
+      // FIXME: Make Table store directly needed structure
+      // Remove columns
+      if (!!lhs_column_names.count(column)
+          && !!!rhs_column_names.count(column))
+      {
+        for (const auto& lhs_column: lhs.columns)
+          if (column == lhs_column.name)
+            std::get<1>(result).push_back(lhs_column);
+      }
+
+      // Add columns
+      if (!!!lhs_column_names.count(column)
+          && !!rhs_column_names.count(column))
+      {
+        for (const auto& rhs_column: rhs.columns)
+          if (column == rhs_column.name)
+            std::get<0>(result).push_back(rhs_column);
+      }
+    }
     return result;
   }
 } /* sqldiff */

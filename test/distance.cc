@@ -189,3 +189,41 @@ TEST(Distance, table_2_pumpkin_4_orange_4_vs_1_pumpkin_8)
   rhs.columns.back().type.size = 8;
   ASSERT_EQ(4 + 1, sqldiff::distance(lhs, rhs));
 }
+
+TEST(Diff, table_1_id_vs_2_id_hash)
+{
+  sqldiff::Table lhs;
+  lhs.name = "Toto";
+  lhs.columns.push_back({});
+  lhs.columns.back().name = "ID";
+  lhs.columns.back().type.size = 4;
+
+  sqldiff::Table rhs;
+  rhs.name = "Toto";
+  rhs.columns.push_back({});
+  rhs.columns.back().name = "ID";
+  rhs.columns.back().type.size = 4;
+  rhs.columns.push_back({});
+  rhs.columns.back().name = "hash";
+  rhs.columns.back().type.size = 4;
+
+  auto result = sqldiff::diff(lhs, rhs);
+  size_t count{0};
+  for (const auto& add: std::get<0>(result))
+  {
+    ++count;
+    ASSERT_STREQ("hash", add.name.c_str());
+    ASSERT_EQ(4, add.type.size);
+  }
+  ASSERT_EQ(1, count);
+
+#if 0
+  for (const auto& drop: std::get<1>(result))
+  {
+  }
+
+  for (const auto& modifiy: std::get<2>(result))
+  {
+  }
+#endif
+}
