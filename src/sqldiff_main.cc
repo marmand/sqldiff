@@ -15,36 +15,47 @@ int
 main(int argc
      , char* argv[])
 {
-
-  po::options_description desc("Allowed options");
-  desc.add_options()
+  po::options_description general("General options");
+  general.add_options()
     ("help,h", "Produces help message")
+    ("version,v", "Show program version")
   ;
 
-  po::positional_options_description p;
-  p.add("input-file", -1);
+  po::options_description hidden("Hidden options");
+  hidden.add_options()
+    ("input-file", po::value<std::vector<std::string>>(), "File")
+  ;
+
+  po::options_description command_line;
+  command_line.add(general).add(hidden);
 
   po::variables_map vm;
   po::store(po::command_line_parser(argc, argv)
-              .options(desc)
-              .positional(p)
+              .options(command_line)
               .run()
             , vm);
   po::notify(vm);
 
   if (vm.count("help"))
   {
-    std::cout << desc;
+    std::cout << general;
     return 1;
   }
 
-  if (2 != vm.count("input-file"))
+  if (!!!vm.count("input-file"))
   {
-    std::cerr << "sqldiff should have two files to diff." << std::endl;
-    std::cerr << desc;
+    std::cerr << "Usage: sqldiff [option]… <file>…" << std::endl;
+    std::cerr << general;
+    return 2;
+  }
+  if (vm.count("input-file") < 2)
+  {
+    std::cerr << "Error: sqldiff needs at least two files to compare."
+              << std::endl;
+    std::cerr << general;
     return 2;
   }
 
   std::cout << "Hello Word" << std::endl;
-  return (0);
+  return 0;
 }
