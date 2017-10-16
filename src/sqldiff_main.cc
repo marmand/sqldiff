@@ -6,8 +6,12 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
+#include <boost/spirit/include/support_istream_iterator.hpp>
 
+#include <fstream>
 #include <iostream>
+
+#include <sqldiff.hh>
 
 namespace po = boost::program_options;
 
