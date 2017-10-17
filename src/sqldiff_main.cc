@@ -6,12 +6,14 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
-#include <boost/spirit/include/support_istream_iterator.hpp>
+#include <boost/spirit/include/qi.hpp>
+#include <boost/spirit/include/support_multi_pass.hpp>
 
 #include <fstream>
 #include <iostream>
 
 #include <config.hh>
+#include <sql_grammar.hh>
 #include <sqldiff.hh>
 
 namespace po = boost::program_options;
@@ -64,14 +66,42 @@ main(int argc
     std::cerr << general;
     return 2;
   }
-  if (2 != vm.count("input-file"))
+  auto input_files = vm["input-file"].as<std::vector<std::string>>();
+  if (2 != input_files.size())
   {
     std::cerr << "Error: sqldiff needs two files to compare."
-              << std::endl;
-    std::cerr << general;
+              << std::endl
+              << "Got " << input_files.size()
+              << std::endl
+    ;
     return 2;
   }
 
-  std::cout << "Hello Word" << std::endl;
+  sqldiff::sql_grammar<std::istream_iterator<char>> sql;
+  // sqldiff::SQL sqlA;
+
+  std::ifstream fileA(input_files[0]);
+  if (!fileA.is_open())
+  {
+    std::cerr << "Couldn't open file" << input_files[0] << std::endl;
+    return 3;
+  }
+  using base_iterator_type = std::istreambuf_iterator<char>;
+  auto first = boost::spirit::make_default_multi_pass(base_iterator_type(fileA));
+  auto result = boost::spirit::qi::phrase_parse(
+    first
+    , boost::spirit::make_default_multi_pass(base_iterator_type())
+    // , sql
+    , boost::spirit::double_ >> *(',' >> boost::spirit::double_)
+    , boost::spirit::ascii::space
+    // , sqlA
+  );
+
+  if (!result)
+  {
+    std::cerr << "Error while parsing file " << input_files[0] << std::endl;
+    return 4;
+  }
+
   return 0;
 }
