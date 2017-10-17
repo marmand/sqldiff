@@ -11,6 +11,7 @@
 #include <fstream>
 #include <iostream>
 
+#include <config.hh>
 #include <sqldiff.hh>
 
 namespace po = boost::program_options;
@@ -29,16 +30,18 @@ main(int argc
   hidden.add_options()
     ("input-file", po::value<std::vector<std::string>>(), "File")
   ;
+  po::positional_options_description p;
+  p.add("input-file", -1);
 
-  po::options_description command_line;
-  command_line.add(general).add(hidden);
+  po::options_description all("All options");
+  all.add(general).add(hidden);
 
   po::variables_map vm;
   po::store(po::command_line_parser(argc, argv)
-              .options(command_line)
+              .options(all)
+              .positional(p)
               .run()
             , vm);
-  po::notify(vm);
 
   if (vm.count("help"))
   {
@@ -46,15 +49,24 @@ main(int argc
     return 1;
   }
 
+  if (vm.count("version"))
+  {
+    std::cout << PACKAGE_STRING << std::endl
+              << "Project page: " << PACKAGE_URL << std::endl
+              << "Report bugs to " << PACKAGE_BUGREPORT << std::endl
+    ;
+    return 0;
+  }
+
   if (!!!vm.count("input-file"))
   {
-    std::cerr << "Usage: sqldiff [option]… <file>…" << std::endl;
+    std::cerr << "Usage: sqldiff [options…] <file> <file>" << std::endl;
     std::cerr << general;
     return 2;
   }
-  if (vm.count("input-file") < 2)
+  if (2 != vm.count("input-file"))
   {
-    std::cerr << "Error: sqldiff needs at least two files to compare."
+    std::cerr << "Error: sqldiff needs two files to compare."
               << std::endl;
     std::cerr << general;
     return 2;
