@@ -27,9 +27,30 @@ class Integer : public Type
 
 inline
 std::ostream&
-operator<<(std::ostream& oss, const Integer& /* integer*/ )
+operator<<(std::ostream& oss, const Integer& integer)
 {
-  return oss << "INTEGER";
+  switch (integer.size)
+  {
+    case 1:
+      oss << "TINYINT";
+      break;
+    case 2:
+      oss << "SMALLINT";
+      break;
+    case 3:
+      oss << "MEDIUMINT";
+      break;
+    case 4:
+      oss << "INTEGER";
+      break;
+    case 8:
+      oss << "BIGINT";
+      break;
+    default:
+      std::cerr << "Error: Unhandled INTEGER size" << std::endl;
+      break;
+  }
+  return oss;
 }
 
 } /* namespace sqldiff */
