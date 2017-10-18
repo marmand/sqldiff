@@ -138,7 +138,7 @@ main(int argc
   {
     std::cout << "ALTER TABLE " << sqlA.tables[0].name << std::endl
               << "ADD " << add.name << " " << add.type << std::endl
-              << ";"
+              << ";" << std::endl
     ;
   }
 
