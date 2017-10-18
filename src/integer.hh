@@ -8,6 +8,8 @@
 
 # include "type.hh"
 
+# include <iostream>
+
 namespace sqldiff
 {
 class Integer : public Type
@@ -22,6 +24,14 @@ class Integer : public Type
   public:
     size_t size;
 }; // class Integer
+
+inline
+std::ostream&
+operator<<(std::ostream& oss, const Integer& /* integer*/ )
+{
+  return oss << "INTEGER";
+}
+
 } /* namespace sqldiff */
 
 #endif /* !INTEGER_HH */

@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include <config.hh>
+#include <diff.hh>
 #include <sql_grammar.hh>
 #include <sqldiff.hh>
 
@@ -132,8 +133,14 @@ main(int argc
     }
   }
 
-  std::cout << "[A] TableName: " << sqlA.tables[0].name << std::endl;
-  std::cout << "[B] TableName: " << sqlB.tables[0].name << std::endl;
+  auto results = sqldiff::diff(sqlA.tables[0], sqlB.tables[0]);
+  for (const auto add: std::get<0>(results))
+  {
+    std::cout << "ALTER TABLE " << sqlA.tables[0].name << std::endl
+              << "ADD " << add.name << " " << add.type << std::endl
+              << ";"
+    ;
+  }
 
   return 0;
 }
