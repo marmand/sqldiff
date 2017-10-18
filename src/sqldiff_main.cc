@@ -84,27 +84,56 @@ main(int argc
     std::cerr << "Couldn't open file" << input_files[0] << std::endl;
     return 3;
   }
+
+  std::ifstream fileB(input_files[1]);
+  if (!fileB.is_open())
+  {
+    std::cerr << "Couldn't open file" << input_files[1] << std::endl;
+    return 3;
+  }
+
   using base_iterator_type = std::istreambuf_iterator<char>;
   using grammar_iterator = boost::spirit::multi_pass<base_iterator_type>;
   sqldiff::sql_grammar<grammar_iterator> sql;
 
   sqldiff::SQL sqlA;
-  grammar_iterator first = boost::spirit::make_default_multi_pass(base_iterator_type(fileA));
-  bool result = boost::spirit::qi::phrase_parse(
-    first
-    , boost::spirit::make_default_multi_pass(base_iterator_type())
-    , sql
-    , boost::spirit::ascii::space
-    , sqlA
-  );
-
-  if (!result)
   {
-    std::cerr << "Error while parsing file " << input_files[0] << std::endl;
-    return 4;
+    grammar_iterator first = boost::spirit::make_default_multi_pass(base_iterator_type(fileA));
+    bool result = boost::spirit::qi::phrase_parse(
+      first
+      , boost::spirit::make_default_multi_pass(base_iterator_type())
+      , sql
+      , boost::spirit::ascii::space
+      , sqlA
+    );
+
+    if (!result)
+    {
+      std::cerr << "Error while parsing file " << input_files[0] << std::endl;
+      return 4;
+    }
   }
 
-  std::cout << "TableName: " << sqlA.tables[0].name << std::endl;
+  sqldiff::SQL sqlB;
+  {
+    grammar_iterator first = boost::spirit::make_default_multi_pass(base_iterator_type(fileB));
+    bool result = boost::spirit::qi::phrase_parse(
+      first
+      , boost::spirit::make_default_multi_pass(base_iterator_type())
+      , sql
+      , boost::spirit::ascii::space
+      , sqlB
+    );
+
+    if (!result)
+    {
+      std::cerr << "Error while parsing file " << input_files[1] << std::endl;
+      return 4;
+    }
+  }
+
+  std::cout << "[A] TableName: " << sqlA.tables[0].name << std::endl;
+  std::cout << "[B] TableName: " << sqlB.tables[0].name << std::endl;
 
   return 0;
 }
