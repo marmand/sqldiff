@@ -77,9 +77,6 @@ main(int argc
     return 2;
   }
 
-  sqldiff::sql_grammar<std::istream_iterator<char>> sql;
-  // sqldiff::SQL sqlA;
-
   std::ifstream fileA(input_files[0]);
   if (!fileA.is_open())
   {
@@ -87,14 +84,17 @@ main(int argc
     return 3;
   }
   using base_iterator_type = std::istreambuf_iterator<char>;
-  auto first = boost::spirit::make_default_multi_pass(base_iterator_type(fileA));
-  auto result = boost::spirit::qi::phrase_parse(
+  using grammar_iterator = boost::spirit::multi_pass<base_iterator_type>;
+  sqldiff::sql_grammar<grammar_iterator> sql;
+
+  sqldiff::SQL sqlA;
+  grammar_iterator first = boost::spirit::make_default_multi_pass(base_iterator_type(fileA));
+  bool result = boost::spirit::qi::phrase_parse(
     first
     , boost::spirit::make_default_multi_pass(base_iterator_type())
-    // , sql
-    , boost::spirit::double_ >> *(',' >> boost::spirit::double_)
+    , sql
     , boost::spirit::ascii::space
-    // , sqlA
+    , sqlA
   );
 
   if (!result)
