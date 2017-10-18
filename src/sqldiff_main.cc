@@ -103,5 +103,7 @@ main(int argc
     return 4;
   }
 
+  std::cout << "TableName: " << sqlA.tables[0].name << std::endl;
+
   return 0;
 }
