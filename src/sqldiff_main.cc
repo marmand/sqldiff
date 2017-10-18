@@ -44,6 +44,7 @@ main(int argc
               .positional(p)
               .run()
             , vm);
+  po::notify(vm);
 
   if (vm.count("help"))
   {
