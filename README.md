@@ -19,7 +19,7 @@ That is understandable, but not in accordance with how git works.
 Usage:
 ------
 
-```sh
+```
 ./sqldiff v0.sql v1.sql
 ALTER TABLE toto
 ADD value BIGINT
