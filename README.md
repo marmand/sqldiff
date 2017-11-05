@@ -27,7 +27,7 @@ CREATE TABLE toto (ID INT);
 CREATE TABLE toto (ID INT, value BIGINT);
 ```
 
-```
+```lang=sh
 ./sqldiff v0.sql v1.sql
 ALTER TABLE toto
 ADD value BIGINT
