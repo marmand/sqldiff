@@ -1,16 +1,13 @@
-AM_LDFLAGS = ${GTEST_LIBS}
-AM_CXXFLAGS = -I${top_srcdir}/include -I${top_srcdir}/src ${PTHREAD_CFLAGS}
-LDADD = libsqldiff.la
+AM_LDFLAGS = ${GTEST_LDFLAGS}
+AM_CXXFLAGS = ${GTEST_CXXFLAGS} ${PTHREAD_CFLAGS}
+AM_CPPFLAGS = -I${top_srcdir}/include -I${top_srcdir}/src ${GTEST_CPPFLAGS}
+LDADD = libsqldiff.la ${GTEST_LIBS}
 
-check_PROGRAMS =        \
-construct               \
-create                  \
-distance                \
-grammar
+AM_DEFAULT_SOURCE_EXT = .cc
 
-construct_SOURCES       = %reldir%/construct.cc
-create_SOURCES          = %reldir%/create.cc
-grammar_SOURCES         = %reldir%/grammar.cc
-distance_SOURCES        = %reldir%/distance.cc
+check_PROGRAMS += %reldir%/construct
+check_PROGRAMS += %reldir%/create
+check_PROGRAMS += %reldir%/grammar
+check_PROGRAMS += %reldir%/distance
 
-TESTS = $(check_PROGRAMS)
+TESTS += $(check_PROGRAMS)

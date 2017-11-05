@@ -11,77 +11,77 @@ TEST(Distance, empty)
 {
   std::string lhs = "";
   std::string rhs = "";
-  ASSERT_EQ(0, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(0ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, first_empty)
 {
   std::string lhs = "";
   std::string rhs = "toto";
-  ASSERT_EQ(4, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(4ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, second_empty)
 {
   std::string lhs = "toto";
   std::string rhs = "";
-  ASSERT_EQ(4, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(4ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, gifts_pgifts)
 {
   std::string lhs = "gifts";
   std::string rhs = "pgifts";
-  ASSERT_EQ(1, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(1ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, pgifts_prgifts)
 {
   std::string lhs = "pgifts";
   std::string rhs = "prgifts";
-  ASSERT_EQ(1, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(1ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, prgifts_proifts)
 {
   std::string lhs = "prgifts";
   std::string rhs = "proifts";
-  ASSERT_EQ(1, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(1ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, proifts_profits)
 {
   std::string lhs = "proifts";
   std::string rhs = "profits";
-  ASSERT_EQ(1, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(1ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, profits_profit)
 {
   std::string lhs = "profits";
   std::string rhs = "profit";
-  ASSERT_EQ(1, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(1ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, gifts_profit)
 {
   std::string lhs = "gifts";
   std::string rhs = "profit";
-  ASSERT_EQ(5, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(5ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, saturday_sunday)
 {
   std::string lhs = "saturday";
   std::string rhs = "sunday";
-  ASSERT_EQ(3, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(3ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, orange_pumpkin)
 {
   std::string lhs = "orange";
   std::string rhs = "pumpkin";
-  ASSERT_EQ(7, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(7ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, int_4_8)
@@ -90,7 +90,7 @@ TEST(Distance, int_4_8)
   four.size = 4;
   sqldiff::Integer eight;
   eight.size = 8;
-  ASSERT_EQ(4, sqldiff::distance(four, eight));
+  ASSERT_EQ(4ul, sqldiff::distance(four, eight));
 }
 
 TEST(Distance, int_8_4)
@@ -99,7 +99,7 @@ TEST(Distance, int_8_4)
   eight.size = 8;
   sqldiff::Integer four;
   four.size = 4;
-  ASSERT_EQ(4, sqldiff::distance(eight, four));
+  ASSERT_EQ(4ul, sqldiff::distance(eight, four));
 }
 
 TEST(Distance, int_0_0)
@@ -108,7 +108,7 @@ TEST(Distance, int_0_0)
   zerro.size = 0;
   sqldiff::Integer zorro;
   zorro.size = 0;
-  ASSERT_EQ(0, sqldiff::distance(zerro, zorro));
+  ASSERT_EQ(0ul, sqldiff::distance(zerro, zorro));
 }
 
 TEST(Distance, column_orange_4_pumpkin_4)
@@ -119,7 +119,7 @@ TEST(Distance, column_orange_4_pumpkin_4)
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
   rhs.type.size = 4;
-  ASSERT_EQ(7, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(7ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, column_orange_4_pumpkin_8)
@@ -130,7 +130,7 @@ TEST(Distance, column_orange_4_pumpkin_8)
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
   rhs.type.size = 8;
-  ASSERT_EQ(7 + 4, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(static_cast<size_t>(7 + 4), sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, column_orange_8_pumpkin_4)
@@ -141,7 +141,7 @@ TEST(Distance, column_orange_8_pumpkin_4)
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
   rhs.type.size = 4;
-  ASSERT_EQ(7 + 4, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(static_cast<size_t>(7 + 4), sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, column_pumpkin_4_pumpkin_8)
@@ -152,7 +152,7 @@ TEST(Distance, column_pumpkin_4_pumpkin_8)
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
   rhs.type.size = 8;
-  ASSERT_EQ(4, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(4ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, table_1_pumpkin_4_vs_1_pumpkin_8)
@@ -168,7 +168,7 @@ TEST(Distance, table_1_pumpkin_4_vs_1_pumpkin_8)
   rhs.columns.push_back({});
   rhs.columns.back().name = "pumpkin";
   rhs.columns.back().type.size = 8;
-  ASSERT_EQ(4, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(4ul, sqldiff::distance(lhs, rhs));
 }
 
 TEST(Distance, table_2_pumpkin_4_orange_4_vs_1_pumpkin_8)
@@ -187,7 +187,7 @@ TEST(Distance, table_2_pumpkin_4_orange_4_vs_1_pumpkin_8)
   rhs.columns.push_back({});
   rhs.columns.back().name = "pumpkin";
   rhs.columns.back().type.size = 8;
-  ASSERT_EQ(4 + 1, sqldiff::distance(lhs, rhs));
+  ASSERT_EQ(static_cast<size_t>(4 + 1), sqldiff::distance(lhs, rhs));
 }
 
 TEST(Diff, table_1_id_vs_2_id_hash)
@@ -213,9 +213,9 @@ TEST(Diff, table_1_id_vs_2_id_hash)
   {
     ++count;
     ASSERT_STREQ("hash", add.name.c_str());
-    ASSERT_EQ(4, add.type.size);
+    ASSERT_EQ(4ul, add.type.size);
   }
-  ASSERT_EQ(1, count);
+  ASSERT_EQ(1ul, count);
 
   count = 0;
   for (const auto& drop: std::get<1>(result))
@@ -223,7 +223,7 @@ TEST(Diff, table_1_id_vs_2_id_hash)
     ++count;
     (void) drop;
   }
-  ASSERT_EQ(0, count);
+  ASSERT_EQ(0ul, count);
 
 #if 0
   for (const auto& modifiy: std::get<2>(result))
@@ -256,16 +256,16 @@ TEST(Diff, table_2_id_hash_vs_1_id)
     ++count;
     (void) add;
   }
-  ASSERT_EQ(0, count);
+  ASSERT_EQ(0ul, count);
 
   count = 0;
   for (const auto& drop: std::get<1>(result))
   {
     ++count;
     ASSERT_STREQ("hash", drop.name.c_str());
-    ASSERT_EQ(4, drop.type.size);
+    ASSERT_EQ(4ul, drop.type.size);
   }
-  ASSERT_EQ(1, count);
+  ASSERT_EQ(1ul, count);
 
 #if 0
   for (const auto& modifiy: std::get<2>(result))
