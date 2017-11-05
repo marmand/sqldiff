@@ -19,11 +19,11 @@ That is understandable, but not in accordance with how git works.
 Usage:
 ------
 
-```sql
+```SQL
 CREATE TABLE toto (ID INT);
 ```
 
-```sql
+```SQL
 CREATE TABLE toto (ID INT, value BIGINT);
 ```
 
