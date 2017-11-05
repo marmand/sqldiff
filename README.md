@@ -19,6 +19,14 @@ That is understandable, but not in accordance with how git works.
 Usage:
 ------
 
+```sql
+CREATE TABLE toto (ID INT);
+```
+
+```sql
+CREATE TABLE toto (ID INT, value BIGINT);
+```
+
 ```
 ./sqldiff v0.sql v1.sql
 ALTER TABLE toto
