@@ -34,8 +34,8 @@ ADD value BIGINT
 ;
 ```
 
-Contribute:
------------
+Contribute
+----------
 
-I have plans to allow public contributions, I need a little time to put all
-informations in place.
+If you ever want to contribute to this project, you can join me on http://phabricator.leclercq.site where
+you'll gain access to my projects issue tracker/repository.
