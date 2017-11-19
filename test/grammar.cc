@@ -132,7 +132,7 @@ TEST(Grammar, Create_Table_One_Column)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("id", ast.tables[0].columns[0].name.c_str());
-  ASSERT_EQ(5ul, ast.tables[0].columns[0].type.size);
+  ASSERT_EQ(4ul, ast.tables[0].columns[0].type.size);
 }
 
 TEST(Grammar, Create_Table_Two_Columns)
@@ -155,7 +155,7 @@ TEST(Grammar, Create_Table_Two_Columns)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("id", ast.tables[0].columns[0].name.c_str());
-  ASSERT_EQ(2ul, ast.tables[0].columns[0].type.size);
+  ASSERT_EQ(4ul, ast.tables[0].columns[0].type.size);
 
   ASSERT_STREQ("name", ast.tables[0].columns[1].name.c_str());
   ASSERT_EQ(4ul, ast.tables[0].columns[1].type.size);
@@ -181,8 +181,8 @@ TEST(Grammar, Create_Table_Two_Columns_Camel)
   );
   ASSERT_STREQ("toto", ast.tables[0].name.c_str());
   ASSERT_STREQ("ID", ast.tables[0].columns[0].name.c_str());
-  ASSERT_EQ(10ul, ast.tables[0].columns[0].type.size);
+  ASSERT_EQ(4ul, ast.tables[0].columns[0].type.size);
 
   ASSERT_STREQ("Name", ast.tables[0].columns[1].name.c_str());
-  ASSERT_EQ(12ul, ast.tables[0].columns[1].type.size);
+  ASSERT_EQ(4ul, ast.tables[0].columns[1].type.size);
 }
