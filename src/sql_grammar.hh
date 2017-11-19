@@ -100,7 +100,11 @@ namespace sqldiff
 
       column =
         identifier                              [at_c<0>(_val) = _1]
-        >> integer                              [at_c<1>(_val) = _1]
+        >> type                                 [at_c<1>(_val) = _1]
+      ;
+
+      type =
+        integer                                 [_val = _1]
       ;
 
       integer =
@@ -145,7 +149,7 @@ namespace sqldiff
     qi::rule<Iterator, Table(), asc::space_type>        table;
     qi::rule<Iterator, std::string(), asc::space_type>  identifier;
     qi::rule<Iterator, Column(), asc::space_type>       column;
-    qi::rule<Iterator, Type(), asc::space_type>         type;
+    qi::rule<Iterator, Integer(), asc::space_type>         type;
     qi::rule<Iterator, Integer(), asc::space_type>      integer;
   }; // struct sql_grammar
 } /* namespace sqldiff */
