@@ -28,8 +28,8 @@ namespace sqldiff
            , const std::string& rhs);
 
   size_t
-  distance(const Integer& lhs
-           , const Integer& rhs);
+  distance(const Type& lhs
+           , const Type& rhs);
 
   size_t
   distance(const Column& lhs

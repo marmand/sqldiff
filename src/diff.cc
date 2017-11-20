@@ -5,6 +5,8 @@
  */
 #include "diff.hh"
 
+#include <boost/variant/apply_visitor.hpp>
+
 #include <algorithm>
 #include <set>
 #include <vector>
@@ -63,11 +65,20 @@ namespace sqldiff
     return distances.back();
   }
 
-  size_t
-  distance(const Integer& lhs
-           , const Integer& rhs)
+  struct size_visitor : public boost::static_visitor<>
   {
-    return std::max(lhs.size, rhs.size) - std::min(lhs.size, rhs.size);
+    using result_type = size_t;
+    template <typename Type>
+    size_t operator()(const Type& value) const { return value.size; }
+  }; // struct size_visitor
+
+  size_t
+  distance(const Type& lhs
+           , const Type& rhs)
+  {
+    auto lhs_size = boost::apply_visitor(size_visitor(), lhs);
+    auto rhs_size = boost::apply_visitor(size_visitor(), rhs);
+    return std::max(lhs_size, rhs_size) - std::min(lhs_size, rhs_size);
   }
 
   size_t

@@ -10,10 +10,9 @@ libsqldiff_la_SOURCES =         \
 %reldir%/src/sqldiff.cc         \
 %reldir%/src/statement.hh       \
 %reldir%/src/table.hh           \
-%reldir%/src/type.hh            \
-%reldir%/src/type.cc            \
 %reldir%/src/integer.hh         \
-%reldir%/src/integer.cc
+%reldir%/src/integer.cc         \
+%reldir%/src/character.hh
 
 libsqldiff_la_LDFLAGS = -version-info 0:0:0
 libsqldiff_la_CXXFLAGS = -I${top_srcdir}/include/

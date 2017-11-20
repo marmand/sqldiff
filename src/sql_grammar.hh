@@ -19,6 +19,11 @@
 # include <boost/spirit/include/qi_no_case.hpp>
 
 BOOST_FUSION_ADAPT_STRUCT(
+  sqldiff::Character,
+  (size_t, size)
+)
+
+BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::Integer,
   (size_t, size)
 )
@@ -26,7 +31,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 BOOST_FUSION_ADAPT_STRUCT(
   sqldiff::Column,
   (std::string, name)
-  (sqldiff::Integer, type)
+  (sqldiff::Type, type)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
@@ -105,6 +110,7 @@ namespace sqldiff
 
       type =
         integer                                 [_val = _1]
+        | character                             [_val = _1]
       ;
 
       integer =
@@ -120,6 +126,13 @@ namespace sqldiff
           >> -("(" >> int_ >> ")")
         | no_case["BIGINT"]                     [at_c<0>(_val) = 8]
           >> -("(" >> int_ >> ")")
+      ;
+
+      character =
+        no_case["VARCHAR"]
+        >> "("
+        >> int_                                 [at_c<0>(_val) = _1]
+        >> ")"
       ;
 
 # if 0
@@ -149,8 +162,9 @@ namespace sqldiff
     qi::rule<Iterator, Table(), asc::space_type>        table;
     qi::rule<Iterator, std::string(), asc::space_type>  identifier;
     qi::rule<Iterator, Column(), asc::space_type>       column;
-    qi::rule<Iterator, Integer(), asc::space_type>         type;
+    qi::rule<Iterator, Type(), asc::space_type>         type;
     qi::rule<Iterator, Integer(), asc::space_type>      integer;
+    qi::rule<Iterator, Character(), asc::space_type>    character;
   }; // struct sql_grammar
 } /* namespace sqldiff */
 

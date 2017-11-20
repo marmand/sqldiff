@@ -6,23 +6,22 @@
 #ifndef INTEGER_HH
 # define INTEGER_HH
 
-# include "type.hh"
-
 # include <iostream>
 
 namespace sqldiff
 {
-class Integer : public Type
+class Integer
 {
-  public:
-    Integer() = default;
-    virtual ~Integer() = default;
+public:
+  Integer() = default;
+  ~Integer() = default;
 
-  public:
-    virtual bool has_size() const;
+public:
+  bool has_size() const;
+  size_t get_size() const { return size; }
 
-  public:
-    size_t size;
+public:
+  size_t size;
 }; // class Integer
 
 inline

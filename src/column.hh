@@ -7,16 +7,27 @@
 # define COLUMN_HH
 
 # include "integer.hh"
+# include "character.hh"
+
+# include <boost/variant.hpp>
 
 # include <string>
 
 namespace sqldiff
 {
-  struct Column
-  {
-    std::string name;
-    Integer type;
-  }; // struct Column
+typedef
+  boost::variant
+  <
+    sqldiff::Integer
+    , sqldiff::Character
+  >
+Type;
+
+struct Column
+{
+  std::string name;
+  Type type;
+}; // struct Column
 } /* namespace sqldiff */
 
 #endif /* !COLUMN_HH */

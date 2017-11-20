@@ -115,10 +115,10 @@ TEST(Distance, column_orange_4_pumpkin_4)
 {
   sqldiff::Column lhs;
   lhs.name = "orange";
-  lhs.type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.type).size = 4;
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
-  rhs.type.size = 4;
+  boost::get<sqldiff::Integer>(rhs.type).size = 4;
   ASSERT_EQ(7ul, sqldiff::distance(lhs, rhs));
 }
 
@@ -126,10 +126,10 @@ TEST(Distance, column_orange_4_pumpkin_8)
 {
   sqldiff::Column lhs;
   lhs.name = "orange";
-  lhs.type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.type).size = 4;
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
-  rhs.type.size = 8;
+  boost::get<sqldiff::Integer>(rhs.type).size = 8;
   ASSERT_EQ(static_cast<size_t>(7 + 4), sqldiff::distance(lhs, rhs));
 }
 
@@ -137,10 +137,10 @@ TEST(Distance, column_orange_8_pumpkin_4)
 {
   sqldiff::Column lhs;
   lhs.name = "orange";
-  lhs.type.size = 8;
+  boost::get<sqldiff::Integer>(lhs.type).size = 8;
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
-  rhs.type.size = 4;
+  boost::get<sqldiff::Integer>(rhs.type).size = 4;
   ASSERT_EQ(static_cast<size_t>(7 + 4), sqldiff::distance(lhs, rhs));
 }
 
@@ -148,10 +148,10 @@ TEST(Distance, column_pumpkin_4_pumpkin_8)
 {
   sqldiff::Column lhs;
   lhs.name = "pumpkin";
-  lhs.type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.type).size = 4;
   sqldiff::Column rhs;
   rhs.name = "pumpkin";
-  rhs.type.size = 8;
+  boost::get<sqldiff::Integer>(rhs.type).size = 8;
   ASSERT_EQ(4ul, sqldiff::distance(lhs, rhs));
 }
 
@@ -161,13 +161,13 @@ TEST(Distance, table_1_pumpkin_4_vs_1_pumpkin_8)
   lhs.name = "table";
   lhs.columns.push_back({});
   lhs.columns.back().name = "pumpkin";
-  lhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.columns.back().type).size = 4;
 
   sqldiff::Table rhs;
   rhs.name = "table";
   rhs.columns.push_back({});
   rhs.columns.back().name = "pumpkin";
-  rhs.columns.back().type.size = 8;
+  boost::get<sqldiff::Integer>(rhs.columns.back().type).size = 8;
   ASSERT_EQ(4ul, sqldiff::distance(lhs, rhs));
 }
 
@@ -177,16 +177,16 @@ TEST(Distance, table_2_pumpkin_4_orange_4_vs_1_pumpkin_8)
   lhs.name = "table";
   lhs.columns.push_back({});
   lhs.columns.back().name = "pumpkin";
-  lhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.columns.back().type).size = 4;
   lhs.columns.push_back({});
   lhs.columns.back().name = "orange";
-  lhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.columns.back().type).size = 4;
 
   sqldiff::Table rhs;
   rhs.name = "table";
   rhs.columns.push_back({});
   rhs.columns.back().name = "pumpkin";
-  rhs.columns.back().type.size = 8;
+  boost::get<sqldiff::Integer>(rhs.columns.back().type).size = 8;
   ASSERT_EQ(static_cast<size_t>(4 + 1), sqldiff::distance(lhs, rhs));
 }
 
@@ -196,16 +196,16 @@ TEST(Diff, table_1_id_vs_2_id_hash)
   lhs.name = "Toto";
   lhs.columns.push_back({});
   lhs.columns.back().name = "ID";
-  lhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.columns.back().type).size = 4;
 
   sqldiff::Table rhs;
   rhs.name = "Toto";
   rhs.columns.push_back({});
   rhs.columns.back().name = "ID";
-  rhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(rhs.columns.back().type).size = 4;
   rhs.columns.push_back({});
   rhs.columns.back().name = "hash";
-  rhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(rhs.columns.back().type).size = 4;
 
   auto result = sqldiff::diff(lhs, rhs);
   size_t count{0};
@@ -213,7 +213,7 @@ TEST(Diff, table_1_id_vs_2_id_hash)
   {
     ++count;
     ASSERT_STREQ("hash", add.name.c_str());
-    ASSERT_EQ(4ul, add.type.size);
+    ASSERT_EQ(4ul, boost::get<sqldiff::Integer>(add.type).size);
   }
   ASSERT_EQ(1ul, count);
 
@@ -238,16 +238,16 @@ TEST(Diff, table_2_id_hash_vs_1_id)
   lhs.name = "Toto";
   lhs.columns.push_back({});
   lhs.columns.back().name = "ID";
-  lhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.columns.back().type).size = 4;
   lhs.columns.push_back({});
   lhs.columns.back().name = "hash";
-  lhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(lhs.columns.back().type).size = 4;
 
   sqldiff::Table rhs;
   rhs.name = "Toto";
   rhs.columns.push_back({});
   rhs.columns.back().name = "ID";
-  rhs.columns.back().type.size = 4;
+  boost::get<sqldiff::Integer>(rhs.columns.back().type).size = 4;
 
   auto result = sqldiff::diff(lhs, rhs);
   size_t count{0};
@@ -263,7 +263,7 @@ TEST(Diff, table_2_id_hash_vs_1_id)
   {
     ++count;
     ASSERT_STREQ("hash", drop.name.c_str());
-    ASSERT_EQ(4ul, drop.type.size);
+    ASSERT_EQ(4ul, boost::get<sqldiff::Integer>(drop.type).size);
   }
   ASSERT_EQ(1ul, count);
 
